@@ -46,4 +46,11 @@ Automatizat a ingestão de dados da base de dados referente a reclamaçãoes de 
 * Carga via: INSERT INTO ... SELECT FROM #STAGE
 
 
+## Monitoramento ✅
+
+* Tabela de Log: TB_PROCS_LOG
+* Nome do Processo: RCCM_IMPORT_ANATEL_CONSUMIDOR_RECLAMACOES
+* Nome da Procedure: PR_ANATEL_CONSUMIDOR_RECLAMACOES
+* Horário de Execução: 11:00
+
 
