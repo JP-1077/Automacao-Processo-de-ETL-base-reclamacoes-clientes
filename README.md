@@ -10,6 +10,40 @@ Automatizat a ingestão de dados da base de dados referente a reclamaçãoes de 
 * **Agendamento:** SQL Server Agente Jobs
 * **Importação:** Comando BULK INSERT
 
+
 ## System Design ✍🏼
 
-![Pipeline do Processo](Pipeline%(2).png)
+![Pipeline](Pipeline%20(2).png)
+
+1. **Importação:** Leitura do CSV via BULK INSERT para #TEMP.
+2. **Filtragem:** Criação da #STAGE com registros válidos (últimos 18 meses e TIPO_ATENDIMENTO não nulo).
+3. **Preparação da base final:** TRUNCATE da tabela tb_anatel_reclamacoes.
+4. **Carga final:** Inserção dos dados da #STAGE com conversões de tipo.
+5. **Log de execução:** Registro em TB_PROCS_LOG.
+6. **Limpeza final:** Remoção das tabelas temporárias.
+
+
+## Detalhes Técnicos ⚙
+
+### Fonte de Dados
+
+* Local: \\SNEPDB56C01\Repositorio\BDS\0044 - IMPORTACAO_ANATEL_RECLAMACOES\0001 - ENTRADAS\
+* Arquivo: AnatelConsumidorReclamacoesCSV.CSV
+* Codificação: UTF-8
+* Delimitador: ;
+
+### Transformações
+
+* Filtro na #STAGE:
+  * TIPO_ATENDIMENTO IS NOT NULL
+  * DATA_FINALIZACAO >= GETDATE() - 18 meses
+* Conversões explícitas de tipos (ex: VARCHAR → NVARCHAR, VARCHAR → DATETIME, VARCHAR → SMALLINT).
+
+
+### Base Final
+
+* Tabela destino: tb_anatel_reclamacoes
+* Carga via: INSERT INTO ... SELECT FROM #STAGE
+
+
+
