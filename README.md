@@ -12,4 +12,4 @@ Automatizat a ingestão de dados da base de dados referente a reclamaçãoes de 
 
 ## System Design ✍🏼
 
-![Pipeline do Processo](Pipeline(2).png)
+![Pipeline do Processo](Pipeline%(2).png)
